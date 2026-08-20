@@ -1,0 +1,28 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = "交大宅文化連合：動畫社、漫畫社、虛擬偶像社、桌上遊戲社、音樂遊戲社、卡牌遊戲社、日本文化研究社、角色扮演社，八個社團的連結入口。",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body class="min-h-dvh">
+    <slot />
+  </body>
+</html>

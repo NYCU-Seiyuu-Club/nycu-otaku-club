@@ -1,0 +1,17 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Quiz from "../../components/Quiz.tsx";
+---
+
+<Layout title="社團測驗｜交大宅文化連合" description="回答幾個小問題，找出最適合你的宅系社團。">
+  <main class="mx-auto flex w-full max-w-xl flex-col items-center px-5 py-16 sm:py-20">
+    <a href="/" class="mb-8 self-start text-sm text-ink-muted transition-colors hover:text-ink">← 回首頁</a>
+
+    <h1 class="text-center text-2xl font-black">你適合哪個社團？</h1>
+    <p class="mt-2 text-center text-sm text-ink-muted">回答 7 題，幫你配對出最適合的社團</p>
+
+    <div class="mt-8 w-full">
+      <Quiz client:load />
+    </div>
+  </main>
+</Layout>

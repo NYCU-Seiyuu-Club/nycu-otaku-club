@@ -1,0 +1,40 @@
+---
+import { Image } from "astro:assets";
+import type { Club } from "../data/clubs";
+
+interface Props {
+  club: Club;
+}
+
+const { club } = Astro.props;
+---
+
+<a
+  href={`/clubs/${club.slug}/`}
+  class="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-surface transition-colors hover:bg-surface-hover"
+>
+  <div class="aspect-square w-full overflow-hidden">
+    <Image
+      src={club.logo}
+      alt={`${club.name} 社徽`}
+      width={512}
+      height={512}
+      class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+    />
+  </div>
+
+  <div class="flex flex-1 flex-col gap-1.5 p-4">
+    <span class="h-1 w-8 rounded-full" style={{ backgroundColor: club.color }}></span>
+    <h2 class="text-lg font-bold">{club.name}</h2>
+    <p class="line-clamp-2 text-sm text-ink-muted">{club.tagline}</p>
+  </div>
+
+  {/* Reserved mascot slot — renders once a club has a mascot image, see src/assets/clubs/mascots/README.md */}
+  {
+    club.mascot && (
+      <div class="pointer-events-none absolute -right-2 -top-2 h-14 w-14 overflow-hidden rounded-full border-2 border-canvas bg-surface shadow-lg">
+        <Image src={club.mascot} alt="" width={112} height={112} class="h-full w-full object-cover" />
+      </div>
+    )
+  }
+</a>

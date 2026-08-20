@@ -1,0 +1,61 @@
+---
+import { orientationEvents, orientationRange } from "../data/orientation";
+import { getClub } from "../data/clubs";
+---
+
+<section
+  id="orientation-banner"
+  class="mx-auto mb-12 w-full max-w-5xl rounded-2xl border border-border bg-surface p-5 sm:p-6"
+  data-start={orientationRange.start}
+  data-end={orientationRange.end}
+>
+  <div class="mb-4 flex flex-wrap items-center gap-2">
+    <span class="rounded-full bg-[#e0555f]/15 px-2.5 py-1 text-xs font-bold text-[#e0555f]">期間限定</span>
+    <h2 class="text-base font-bold sm:text-lg">2026 迎新社課場次</h2>
+    <span class="text-xs text-ink-muted">場地：綜合一館 A203・時間 19:00–22:00</span>
+  </div>
+
+  <ol class="grid gap-2 sm:grid-cols-2">
+    {
+      orientationEvents.map((event) => {
+        const club = getClub(event.clubSlug);
+        if (!club) return null;
+        const [, month, day] = event.date.split("-");
+        return (
+          <li
+            data-date={event.date}
+            class="orientation-item flex items-center justify-between gap-3 rounded-xl border border-border bg-canvas px-3.5 py-2.5 transition-opacity"
+          >
+            <div class="flex items-center gap-2.5">
+              <span class="w-16 shrink-0 text-sm font-semibold text-ink-muted">
+                {Number(month)}/{Number(day)}（{event.weekday}）
+              </span>
+              <a href={`/clubs/${club.slug}/`} class="font-bold hover:underline">
+                {club.name}
+              </a>
+            </div>
+            <span class="text-xs text-ink-muted">{event.time}</span>
+          </li>
+        );
+      })
+    }
+  </ol>
+</section>
+
+<script>
+  const banner = document.getElementById("orientation-banner");
+  if (banner) {
+    const end = banner.dataset.end;
+    const today = new Date().toISOString().slice(0, 10);
+    if (end && today > end) {
+      banner.remove();
+    } else {
+      for (const item of banner.querySelectorAll<HTMLElement>(".orientation-item")) {
+        const date = item.dataset.date;
+        if (date && date < today) {
+          item.classList.add("opacity-40");
+        }
+      }
+    }
+  }
+</script>

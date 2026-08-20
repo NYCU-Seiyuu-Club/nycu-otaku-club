@@ -1,0 +1,84 @@
+---
+import { Image } from "astro:assets";
+import Layout from "../../layouts/Layout.astro";
+import { clubs, type Club } from "../../data/clubs";
+
+export function getStaticPaths() {
+  return clubs.map((club) => ({ params: { slug: club.slug }, props: { club } }));
+}
+
+interface Props {
+  club: Club;
+}
+
+const { club } = Astro.props;
+
+const linkList = [
+  club.links.website && { label: "官方網站", href: club.links.website },
+  club.links.facebook && { label: "Facebook", href: club.links.facebook },
+  club.links.instagram && { label: "Instagram", href: club.links.instagram },
+  club.links.x && { label: "X (Twitter)", href: club.links.x },
+  club.links.email && { label: "Email", href: `mailto:${club.links.email}` },
+].filter((link): link is { label: string; href: string } => Boolean(link));
+---
+
+<Layout title={`${club.name}｜交大宅文化連合`} description={club.description}>
+  <main class="mx-auto flex w-full max-w-xl flex-col items-center px-5 py-16 sm:py-20">
+    <a href="/" class="mb-8 self-start text-sm text-ink-muted transition-colors hover:text-ink">← 回首頁</a>
+
+    <div class="flex w-full items-end gap-4">
+      <div class="h-28 w-28 shrink-0 overflow-hidden rounded-2xl border border-border sm:h-32 sm:w-32">
+        <Image
+          src={club.logo}
+          alt={`${club.name} 社徽`}
+          width={256}
+          height={256}
+          class="h-full w-full object-cover"
+        />
+      </div>
+
+      {/* Reserved mascot slot — see src/assets/clubs/mascots/README.md */}
+      <div class="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-dashed border-border text-center text-[11px] leading-tight text-ink-muted sm:h-24 sm:w-24">
+        {
+          club.mascot ? (
+            <Image
+              src={club.mascot}
+              alt={`${club.name} 吉祥物`}
+              width={192}
+              height={192}
+              class="h-full w-full object-cover"
+            />
+          ) : (
+            <span>
+              吉祥物
+              <br />
+              敬請期待
+            </span>
+          )
+        }
+      </div>
+    </div>
+
+    <h1 class="mt-6 text-2xl font-black">{club.name}</h1>
+    <p class="mt-1 text-sm font-bold" style={{ color: club.color }}>
+      {club.tagline}
+    </p>
+    <p class="mt-4 text-center text-sm leading-relaxed text-ink-muted">{club.description}</p>
+    <p class="mt-4 text-sm text-ink-muted">社辦｜{club.room}</p>
+
+    <div class="mt-8 flex w-full flex-col gap-3">
+      {
+        linkList.map((link) => (
+          <a
+            href={link.href}
+            target="_blank"
+            rel="noreferrer"
+            class="flex items-center justify-center rounded-xl border border-border bg-surface px-5 py-3 text-sm font-bold transition-colors hover:bg-surface-hover"
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </div>
+  </main>
+</Layout>
