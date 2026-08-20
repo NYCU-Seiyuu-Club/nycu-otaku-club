@@ -122,18 +122,11 @@ export default function Quiz() {
           <div className="h-28 w-28 shrink-0 overflow-hidden rounded-2xl border border-border sm:h-32 sm:w-32">
             <img src={winner.logo.src} alt={`${winner.name} 社徽`} className="h-full w-full object-cover" />
           </div>
-          {/* Reserved mascot slot — see src/assets/clubs/mascots/README.md */}
-          <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-dashed border-border text-center text-[11px] leading-tight text-ink-muted sm:h-24 sm:w-24">
-            {winner.mascot ? (
+          {winner.mascot && (
+            <div className="h-16 w-16 shrink-0 overflow-hidden rounded-full border border-border sm:h-20 sm:w-20">
               <img src={winner.mascot.src} alt={`${winner.name} 吉祥物`} className="h-full w-full object-cover" />
-            ) : (
-              <span>
-                吉祥物
-                <br />
-                敬請期待
-              </span>
-            )}
-          </div>
+            </div>
+          )}
         </div>
 
         <h2 className="mt-6 text-2xl font-black">最適合你的社團是「{winner.name}」</h2>

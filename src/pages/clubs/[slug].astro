@@ -18,55 +18,90 @@ const linkList = [
   club.links.facebook && { label: "Facebook", href: club.links.facebook },
   club.links.instagram && { label: "Instagram", href: club.links.instagram },
   club.links.x && { label: "X (Twitter)", href: club.links.x },
-  club.links.email && { label: "Email", href: `mailto:${club.links.email}` },
 ].filter((link): link is { label: string; href: string } => Boolean(link));
 ---
 
 <Layout title={`${club.name}｜交大宅文化連合`} description={club.description}>
-  <main class="mx-auto flex w-full max-w-xl flex-col items-center px-5 py-16 sm:py-20">
-    <a href="/" class="mb-8 self-start text-sm text-ink-muted transition-colors hover:text-ink">← 回首頁</a>
+  <div class="relative mx-auto w-full max-w-xl">
+    <div class="relative aspect-[4/3] w-full overflow-hidden bg-surface">
+      <Image
+        src={club.logo}
+        alt=""
+        aria-hidden="true"
+        width={800}
+        height={600}
+        class="absolute inset-0 h-full w-full scale-110 object-cover blur-2xl brightness-50"
+      />
+      <Image
+        src={club.logo}
+        alt={`${club.name} 社徽`}
+        width={800}
+        height={800}
+        class="relative h-full w-full object-contain"
+      />
+    </div>
+    <a
+      href="/"
+      class="absolute left-4 top-4 rounded-full bg-canvas/70 px-3 py-1.5 text-xs font-bold backdrop-blur-sm transition-colors hover:bg-canvas/90"
+    >
+      ← 回首頁
+    </a>
+  </div>
 
-    <div class="flex w-full items-end gap-4">
-      <div class="h-28 w-28 shrink-0 overflow-hidden rounded-2xl border border-border sm:h-32 sm:w-32">
-        <Image
-          src={club.logo}
-          alt={`${club.name} 社徽`}
-          width={256}
-          height={256}
-          class="h-full w-full object-cover"
-        />
-      </div>
-
-      {/* Reserved mascot slot — see src/assets/clubs/mascots/README.md */}
-      <div class="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-dashed border-border text-center text-[11px] leading-tight text-ink-muted sm:h-24 sm:w-24">
-        {
-          club.mascot ? (
+  <main class="mx-auto flex w-full max-w-xl flex-col items-center px-5 pb-16 pt-8 sm:pt-10">
+    <div class="flex items-center gap-3">
+      {
+        club.mascot && (
+          <div class="h-12 w-12 shrink-0 overflow-hidden rounded-full border border-border">
             <Image
               src={club.mascot}
               alt={`${club.name} 吉祥物`}
-              width={192}
-              height={192}
+              width={96}
+              height={96}
               class="h-full w-full object-cover"
             />
-          ) : (
-            <span>
-              吉祥物
-              <br />
-              敬請期待
-            </span>
-          )
-        }
-      </div>
+          </div>
+        )
+      }
+      <h1 class="text-2xl font-black">{club.name}</h1>
     </div>
-
-    <h1 class="mt-6 text-2xl font-black">{club.name}</h1>
     <p class="mt-1 text-sm font-bold" style={{ color: club.color }}>
       {club.tagline}
     </p>
     <p class="mt-4 text-center text-sm leading-relaxed text-ink-muted">{club.description}</p>
-    <p class="mt-4 text-sm text-ink-muted">社辦｜{club.room}</p>
 
-    <div class="mt-8 flex w-full flex-col gap-3">
+    {
+      club.links.joinForm && (
+        <a
+          href={club.links.joinForm}
+          target="_blank"
+          rel="noreferrer"
+          class="mt-6 flex w-full items-center justify-center rounded-xl px-5 py-3.5 text-sm font-black text-canvas transition-opacity hover:opacity-90"
+          style={{ backgroundColor: club.color }}
+        >
+          立即入社 →
+        </a>
+      )
+    }
+
+    <div class="mt-6 w-full divide-y divide-border">
+      <div class="flex items-center gap-3 py-3">
+        <span class="w-14 shrink-0 text-sm font-bold">社辦</span>
+        <span class="text-sm text-ink-muted">{club.room}</span>
+      </div>
+      {
+        club.links.email && (
+          <div class="flex items-center gap-3 py-3">
+            <span class="w-14 shrink-0 text-sm font-bold">Email</span>
+            <a href={`mailto:${club.links.email}`} class="text-sm text-ink-muted hover:underline">
+              {club.links.email}
+            </a>
+          </div>
+        )
+      }
+    </div>
+
+    <div class="mt-10 flex w-full flex-col gap-3">
       {
         linkList.map((link) => (
           <a

@@ -3,44 +3,62 @@ import { orientationEvents, orientationRange } from "../data/orientation";
 import { getClub } from "../data/clubs";
 ---
 
-<section
+<details
   id="orientation-banner"
-  class="mx-auto mb-12 w-full max-w-5xl rounded-2xl border border-border bg-surface p-5 sm:p-6"
+  class="group mx-auto mb-6 w-full max-w-5xl rounded-2xl border border-border bg-surface"
   data-start={orientationRange.start}
   data-end={orientationRange.end}
 >
-  <div class="mb-4 flex flex-wrap items-center gap-2">
-    <span class="rounded-full bg-[#e0555f]/15 px-2.5 py-1 text-xs font-bold text-[#e0555f]">期間限定</span>
-    <h2 class="text-base font-bold sm:text-lg">2026 迎新社課場次</h2>
-    <span class="text-xs text-ink-muted">場地：綜合一館 A203・時間 19:00–22:00</span>
-  </div>
+  <summary class="flex cursor-pointer list-none items-center justify-between gap-3 px-5 py-3.5 marker:hidden sm:px-6 [&::-webkit-details-marker]:hidden">
+    <div class="flex flex-wrap items-center gap-2">
+      <span class="rounded-full bg-[#e0555f]/15 px-2.5 py-1 text-xs font-bold text-[#e0555f]">期間限定</span>
+      <span class="text-sm font-bold sm:text-base">2026 迎新社課場次</span>
+    </div>
+    <span class="flex shrink-0 items-center gap-1 text-xs text-ink-muted">
+      查看時間表
+      <svg
+        class="h-3.5 w-3.5 transition-transform duration-200 group-open:rotate-180"
+        viewBox="0 0 20 20"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path d="M5 7.5L10 12.5L15 7.5" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </span>
+  </summary>
 
-  <ol class="grid gap-2 sm:grid-cols-2">
-    {
-      orientationEvents.map((event) => {
-        const club = getClub(event.clubSlug);
-        if (!club) return null;
-        const [, month, day] = event.date.split("-");
-        return (
-          <li
-            data-date={event.date}
-            class="orientation-item flex items-center justify-between gap-3 rounded-xl border border-border bg-canvas px-3.5 py-2.5 transition-opacity"
-          >
-            <div class="flex items-center gap-2.5">
-              <span class="w-16 shrink-0 text-sm font-semibold text-ink-muted">
-                {Number(month)}/{Number(day)}（{event.weekday}）
-              </span>
-              <a href={`/clubs/${club.slug}/`} class="font-bold hover:underline">
-                {club.name}
-              </a>
-            </div>
-            <span class="text-xs text-ink-muted">{event.time}</span>
-          </li>
-        );
-      })
-    }
-  </ol>
-</section>
+  <div class="px-5 pb-5 sm:px-6">
+    <ol class="grid gap-2 sm:grid-cols-2">
+      {
+        orientationEvents.map((event) => {
+          const club = getClub(event.clubSlug);
+          if (!club) return null;
+          const [, month, day] = event.date.split("-");
+          return (
+            <li
+              data-date={event.date}
+              class="orientation-item flex items-center justify-between gap-3 rounded-xl border border-border bg-canvas px-3.5 py-2.5 transition-opacity"
+            >
+              <div class="flex items-center gap-2.5">
+                <span class="w-16 shrink-0 text-sm font-semibold text-ink-muted">
+                  {Number(month)}/{Number(day)}（{event.weekday}）
+                </span>
+                <a href={`/clubs/${club.slug}/`} class="font-bold hover:underline">
+                  {club.name}
+                </a>
+              </div>
+              <div class="shrink-0 text-right text-xs text-ink-muted">
+                <p>{event.time}</p>
+                <p>{event.location}</p>
+              </div>
+            </li>
+          );
+        })
+      }
+    </ol>
+  </div>
+</details>
 
 <script>
   const banner = document.getElementById("orientation-banner");

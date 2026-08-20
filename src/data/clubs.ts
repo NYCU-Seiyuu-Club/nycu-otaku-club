@@ -15,6 +15,8 @@ export type ClubLinks = {
   instagram?: string;
   x?: string;
   email?: string;
+  /** Club-specific sign-up form (Google Form, custom site, etc.), shown as the primary CTA on the club page. */
+  joinForm?: string;
 };
 
 export type Club = {
@@ -31,14 +33,18 @@ export type Club = {
   links: ClubLinks;
 };
 
-// NOTE on data reliability (checked 2026-08-21):
+// NOTE on data reliability (checked 2026-08-21, emails cross-checked 2026-08-22
+// against clubportal.nycu.edu.tw/club/list/global, the official campus club directory):
 // - manga / boardgame / rhythmgame / cardgame room numbers come from a single
 //   source (校內社團入口網) and have not been independently cross-checked.
 // - facebook links for rhythmgame / cardgame are new numeric-ID pages that
 //   could not be verified by search; open them once and confirm before relying on them.
 // - jcc has no fixed room number on record, only "every Wednesday night" in
-//   the activity center.
-// - cosplay has no confirmed room number.
+//   the activity center (clubportal itself lists a joke Tokyo address for jcc's
+//   room, obviously not real — ignored).
+// - cosplay has no confirmed room number (clubportal says it has no clubroom at all).
+// - anime / manga / rhythmgame / cardgame still have no known Instagram — none
+//   turned up on clubportal either.
 // Please double-check the flagged items with each club before treating this as final.
 export const clubs: Club[] = [
   {
@@ -52,6 +58,8 @@ export const clubs: Club[] = [
     room: "活動中心 527",
     links: {
       website: "https://anime.nycu.cc",
+      facebook: "https://www.facebook.com/nctuanime",
+      email: "nctuanime@gmail.com",
     },
   },
   {
@@ -65,6 +73,7 @@ export const clubs: Club[] = [
     room: "活動中心 506",
     links: {
       facebook: "https://www.facebook.com/NCTUComicClub/",
+      email: "nctucc.arcloli2@gmail.com",
     },
   },
   {
@@ -79,6 +88,10 @@ export const clubs: Club[] = [
     links: {
       website: "https://nycu.moe",
       facebook: "https://www.facebook.com/nycu.vtuber",
+      instagram: "https://www.instagram.com/nycu.vtuber/",
+      email: "vtuber@nycu.moe",
+      joinForm:
+        "https://docs.google.com/forms/d/e/1FAIpQLScBX1FWQtAdBhxFU_PZGYEAnzFT2hpJTmq9ARMY5T8baEQvJw/viewform",
     },
   },
   {
@@ -93,6 +106,7 @@ export const clubs: Club[] = [
     links: {
       facebook: "https://www.facebook.com/NCTUBG/",
       instagram: "https://www.instagram.com/nycubgc/",
+      email: "nycu.boardgameclub@gmail.com",
     },
   },
   {
@@ -106,6 +120,7 @@ export const clubs: Club[] = [
     room: "活動中心 533",
     links: {
       facebook: "https://www.facebook.com/profile.php?id=61565158105143",
+      email: "drhuang0922@gmail.com",
     },
   },
   {
@@ -119,6 +134,7 @@ export const clubs: Club[] = [
     room: "活動中心 530",
     links: {
       facebook: "https://www.facebook.com/profile.php?id=61556760723081",
+      email: "nycutcgc@gmail.com",
     },
   },
   {
@@ -129,12 +145,14 @@ export const clubs: Club[] = [
       "交大日本文化研究社下分偶像應援、流行文化、傳統文化、歷史地理四個次分組，社課於每週三晚上在活動中心舉行。",
     color: "#e0555f",
     logo: jccLogo,
-    room: "活動中心（每週三晚間社課）",
+    room: "尚無社辦",
     links: {
       website: "https://jcc.nycu.cc",
       facebook: "https://www.facebook.com/people/交大日本文化研究社/61591851335912/",
       instagram: "https://www.instagram.com/nycu.jcc/",
       x: "https://x.com/nycu_jcc",
+      email: "nycu.seiyuu.club@gmail.com",
+      joinForm: "https://join.jcc.nycu.cc/",
     },
   },
   {
@@ -145,7 +163,7 @@ export const clubs: Club[] = [
       "交大角色扮演社分享化妝技巧、假髮造型與拍照修圖心得，也會集合社員的 cosplay 成果互相交流。",
     color: "#43c6d0",
     logo: cosplayLogo,
-    room: "社辦資訊確認中",
+    room: "尚無社辦",
     links: {
       instagram: "https://www.instagram.com/nycu_cosplay_club/",
       email: "nycucosplayclub@gmail.com",
